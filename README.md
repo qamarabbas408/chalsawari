@@ -1,5 +1,49 @@
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
+# Chalsawari
+
+A modern React Native application built without any external frameworks, using the official React Native CLI.  
+The project follows a scalable architecture with Redux Toolkit for state management.
+
+---
+
+## 🚀 Features
+
+- Pure React Native (no Expo, no wrappers)
+- Redux Toolkit state management
+- TypeScript support
+- Modular and scalable folder structure
+- Android and iOS support
+- Safe Area handling with `react-native-safe-area-context`
+
+---
+
+## 📦 Tech Stack
+
+- React Native 0.83
+- React 19
+- Redux Toolkit
+- React Redux
+- TypeScript
+- Metro Bundler
+
+---
+
+## 📁 Project Structure
+
+chalsawari/
+src/
+features/
+user/
+userSlice.ts
+store/
+index.ts
+components/
+screens/
+android/
+ios/
+App.tsx
+
 # Getting Started
 
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
