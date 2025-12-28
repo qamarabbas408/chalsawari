@@ -17,6 +17,7 @@ import {
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './src/store'; // adjust path if needed
+import SplashScreen from './src/screens/Splashscreen';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -39,10 +40,7 @@ function AppContent() {
 
   return (
     <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
+      <SplashScreen />
     </View>
   );
 }
