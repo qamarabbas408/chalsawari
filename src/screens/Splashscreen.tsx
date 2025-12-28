@@ -44,15 +44,10 @@ export default function SplashScreen() {
   return (
 
     <View style={styles.container}>
-      {/* Background Gradient - You'll need react-native-linear-gradient for this */}
-      {/* <View style={styles.background} /> */}
-      <LinearGradient
-        colors={['#0f172a', '#581c87', '#0f172a']}
-        locations={[0, 0.5, 1]}
-        style={styles.background}
-      />
+     
+      <Image source={require('../assets/splash-bg.png')} style={styles.background} />
 
-      {/* Mobile Screen Container */}
+    
       <View style={styles.contentContainer}>
         {/* Animated Logo Container */}
         <Animated.View
@@ -67,22 +62,22 @@ export default function SplashScreen() {
           <View>
             {/* Logo Image */}
             <Animated.Image
-              
+
               source={require('../assets/chal-sawari-logo.png')}
               style={[
                 styles.logo,
-                
+
                 {
                   transform: [{ scale: scaleAnim }],
                   opacity: scaleAnim,
                 },
               ]}
               resizeMode="contain"
-              
+
             />
 
           </View>
-     
+
         </Animated.View>
       </View>
 
@@ -102,6 +97,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: '100%',
+    resizeMode: 'cover',
     backgroundColor: '#0f172a',
   },
   contentContainer: {
