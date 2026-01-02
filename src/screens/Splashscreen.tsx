@@ -26,19 +26,6 @@ export default function SplashScreen() {
       }),
     ]).start();
 
-    // Logo scale animation
-    Animated.timing(scaleAnim, {
-      toValue: 1,
-      delay: 300,
-      duration: 800,
-      useNativeDriver: true,
-    }).start(() => {
-      // After animation completes, show loader 
-
-      setShowLoader(true);
-      // Mock API call: hide splash after 2s 
-      setTimeout(() => { setShowLoader(false) }, 2000)
-    });
   }, []);
 
   return (
