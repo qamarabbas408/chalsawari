@@ -17,7 +17,7 @@ import {
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './src/store'; // adjust path if needed
-import SplashScreen from './src/screens/Splashscreen';
+import AppNavigator from './src/navigation/AppNavigator';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -28,27 +28,11 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <SafeAreaProvider>
           <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-          <AppContent />
+          <AppNavigator />
         </SafeAreaProvider>
       </PersistGate>
     </Provider>
   );
 }
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <SplashScreen />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
