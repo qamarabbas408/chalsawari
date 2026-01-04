@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Image, Animated, StyleSheet, Dimensions } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import Loader from '../components/Loader';
 
 const { height, width } = Dimensions.get('window');
@@ -10,7 +10,8 @@ export default function SplashScreen() {
   const slideAnim = useRef(new Animated.Value(100)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
   const glowAnim = useRef(new Animated.Value(0)).current;
-  const [showLoader, setShowLoader] = useState(false);
+  const navigation = useNavigation();
+  const [showLoader, setShowLoader] = useState(false)
   useEffect(() => {
     // Main container animation
     Animated.parallel([
@@ -24,17 +25,31 @@ export default function SplashScreen() {
         duration: 1200,
         useNativeDriver: true,
       }),
-    ]).start();
+    ]).start(() => {
+      setShowLoader(true);
+      // Simulate API call with 5s delay 
+      setTimeout(() => {
+        // Example in SplashScreen
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: 'Intro' }],
+          })
+        );
+
+      }, 5000);
+
+    });
 
   }, []);
 
   return (
 
     <View style={styles.container}>
-     
+
       <Image source={require('../assets/splash-bg.png')} style={styles.background} />
 
-    
+
       <View style={styles.contentContainer}>
         {/* Animated Logo Container */}
         <Animated.View
@@ -66,7 +81,17 @@ export default function SplashScreen() {
           </View>
 
         </Animated.View>
+
+        {
+          showLoader ? <Loader /> : <View style={{
+            width: 40,
+            height: 40
+
+          }}></View>
+        }
       </View>
+
+
 
     </View>
   );
