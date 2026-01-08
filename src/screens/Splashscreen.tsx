@@ -49,7 +49,6 @@ export default function SplashScreen() {
 
       <Image source={require('../assets/splash-bg.png')} style={styles.background} />
 
-
       <View style={styles.contentContainer}>
         {/* Animated Logo Container */}
         <Animated.View
@@ -84,8 +83,8 @@ export default function SplashScreen() {
 
         {
           showLoader ? <Loader /> : <View style={{
-            width: 40,
-            height: 40
+            width: 60,
+            height: 60
 
           }}></View>
         }
@@ -104,6 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
+  
   },
   background: {
     position: 'absolute',

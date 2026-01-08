@@ -8,7 +8,7 @@ type LoaderProps = {
 };
 
 const Loader: React.FC<LoaderProps> = ({
-  size = 40,
+  size = 60,
   speed = 1500,
   source = require('../assets/wheel.png'),
 }) => {

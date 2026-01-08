@@ -57,7 +57,7 @@ const AppButton: React.FC<ButtonProps> = ({
             onPressIn={handlePressIn}
             onPressOut={handlePressOut}
         >
-            <Animated.View style={[getVariantStyle(), style, { transform: [{ scale: scaleAnim }] }]}>
+            <Animated.View style={[styles.size, getVariantStyle(), style, { transform: [{ scale: scaleAnim }] }]}>
                 <Text style={[styles.text, textStyle]}>{title}</Text>
             </Animated.View>
         </TouchableWithoutFeedback>
@@ -65,19 +65,22 @@ const AppButton: React.FC<ButtonProps> = ({
 };
 
 const styles = StyleSheet.create({
+    size : {
+        height: 60,
+    },
     button: {
         backgroundColor: '#0f172a',
         ...GlobalStyles.vhCenter,
-        ...GlobalStyles.roundedBorder,
+        ...GlobalStyles.roundedBorder8,
     },
     roundedShiny: {
         backgroundColor: '#581c87',
         ...GlobalStyles.vhCenter,
         ...GlobalStyles.shinyBorderBackgroundColor,
         ...GlobalStyles.roundedBorder,
+        // alignItems:"center"
     },
     text: {
-        ...GlobalStyles.desc1,
         color: '#fff',
     },
 });
