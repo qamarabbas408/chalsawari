@@ -31,7 +31,7 @@ const RootStyles = StyleSheet.create({
     alignItems: 'center',
   },
 
-   roundedBorder8: {
+  roundedBorder8: {
     borderRadius: 8,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -41,12 +41,19 @@ const RootStyles = StyleSheet.create({
 
 const GlobalStyles = {
   ...RootStyles,
-  ...GlobalTypoStyles, 
+  ...GlobalTypoStyles,
   shinyBorderBackgroundColor: {
     ...RootStyles.shinyBorder,
     shadowColor: AppColors.background,
     borderColor: AppColors.background,
   },
+  roundedBorderw1: {
+    ...RootStyles.roundedBorder,
+    borderColor: AppColors.grayDark,
+    borderWidth: 1
+  },
+  line: { flex: 1, height: 1, backgroundColor: '#d1d5db', marginHorizontal: 8, },
+
 };
 
 export default GlobalStyles;

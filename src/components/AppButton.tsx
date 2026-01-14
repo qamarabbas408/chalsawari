@@ -6,15 +6,20 @@ import {
     StyleSheet,
     ViewStyle,
     TextStyle,
+    Image,
+    ImageSourcePropType,
 } from 'react-native';
 import GlobalStyles from '../styles/GlobalStyles';
+import AppColors from '../styles/AppColors';
+import App from '../../App';
 
 type ButtonProps = {
     title: string;
     onPress: () => void;
     style?: ViewStyle;
     textStyle?: TextStyle;
-    variant?: 'default' | 'roundedShiny';
+    variant?: 'default' | 'roundedShiny' | 'rounded';
+    icon?: ImageSourcePropType;
 };
 
 const AppButton: React.FC<ButtonProps> = ({
@@ -23,6 +28,7 @@ const AppButton: React.FC<ButtonProps> = ({
     style,
     textStyle,
     variant = 'default',
+    icon,
 }) => {
     const scaleAnim = useRef(new Animated.Value(1)).current;
 
@@ -46,6 +52,8 @@ const AppButton: React.FC<ButtonProps> = ({
         switch (variant) {
             case 'roundedShiny':
                 return styles.roundedShiny;
+            case 'rounded':
+                return styles.rounded;
             default:
                 return styles.button;
         }
@@ -57,28 +65,46 @@ const AppButton: React.FC<ButtonProps> = ({
             onPressIn={handlePressIn}
             onPressOut={handlePressOut}
         >
-            <Animated.View style={[styles.size, getVariantStyle(), style, { transform: [{ scale: scaleAnim }] }]}>
-                <Text style={[styles.text, textStyle]}>{title}</Text>
+            <Animated.View style={[styles.size, getVariantStyle(), style, {
+                flexDirection: "row",
+                gap: 16,
+                transform: [{ scale: scaleAnim }]
+            }]}>
+                {
+                    icon && <Image source={icon} style={{
+                        height: 24,
+                        width: 24,
+                    }} />
+                } <Text style={[styles.text, textStyle]}>{title}</Text>
             </Animated.View>
         </TouchableWithoutFeedback>
     );
 };
 
 const styles = StyleSheet.create({
-    size : {
+    size: {
         height: 60,
     },
     button: {
-        backgroundColor: '#0f172a',
+        backgroundColor: AppColors.white,
         ...GlobalStyles.vhCenter,
         ...GlobalStyles.roundedBorder8,
+        color: AppColors.black,
     },
     roundedShiny: {
-        backgroundColor: '#581c87',
         ...GlobalStyles.vhCenter,
         ...GlobalStyles.shinyBorderBackgroundColor,
         ...GlobalStyles.roundedBorder,
-        // alignItems:"center"
+        backgroundColor: AppColors.white,
+        color: AppColors.black,
+    },
+    rounded: {
+        ...GlobalStyles.vhCenter,
+        ...GlobalStyles.roundedBorder,
+        ...GlobalStyles.roundedBorderw1,
+        backgroundColor: AppColors.white,
+        color: AppColors.black,
+
     },
     text: {
         color: '#fff',
