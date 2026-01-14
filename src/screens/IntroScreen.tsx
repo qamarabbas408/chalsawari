@@ -5,6 +5,8 @@ import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 import Video from 'react-native-video';
 import GlobalStyles from '../styles/GlobalStyles';
 import AppButton from '../components/AppButton';
+import AppColors from '../styles/AppColors';
+import { CommonActions } from '@react-navigation/native';
 export default function IntroScreen({ navigation }) {
   const [videoLoaded, setVideoLoaded] = useState(false);
   return (
@@ -38,24 +40,17 @@ export default function IntroScreen({ navigation }) {
           resizeMode="contain"
         />
         <Text style={styles.description}>
-          <Text style={[GlobalStyles.h5, GlobalStyles.textLight,{
-            fontWeight: "900"
-          }]}>ChalSawari</Text> brings you a seamless ride experience with comfort and trust.
+          ChalSawari brings you a seamless ride experience with comfort and trust.
         </Text>
-
-        {/* <View style={
-          {
-            backgroundColor: "red",
-            // alignItems:"center"
-            
-          }
-        }> */}
-          <AppButton
-            textStyle={[GlobalStyles.body2, GlobalStyles.textLight]}
-            variant='roundedShiny'
-            style={styles.button} title={'Proceed'} onPress={function (): void {
-
-            }} />
+        <AppButton
+          textStyle={[GlobalStyles.body2, GlobalStyles.textLight]}
+          variant='roundedShiny'
+          style={styles.button} title={'Proceed'} onPress={() => navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: 'Login' }],
+            })
+          )} />
         {/* </View> */}
       </View>
     </View>
@@ -63,20 +58,20 @@ export default function IntroScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000' },
+  container: { flex: 1, backgroundColor: '#000', },
   video: { ...StyleSheet.absoluteFill },
   overlay: {
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
-    paddingHorizontal: 8,
+    paddingHorizontal: 20,
     paddingVertical: 100,
     gap: 8,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
-  logo: { width: 200, height: 100, marginVertical: 4, objectFit: "cover" },
+  logo: { width: 240, height: 100, marginVertical: 4, objectFit: "contain" },
   description: {
-    ...GlobalStyles.body1,
+    ...GlobalStyles.body2,
     ...GlobalStyles.textLight,
     marginBottom: 12,
     marginLeft: 12,
@@ -84,15 +79,12 @@ const styles = StyleSheet.create({
   heading: {
     ...GlobalStyles.h1,
     ...GlobalStyles.textLight,
-    // marginBottom: 12,
     marginLeft: 12,
   },
   button: {
-    backgroundColor: '#581c87',
     paddingVertical: 12,
     paddingHorizontal: 100,
-    // marginLeft: 12,
-    
+    backgroundColor: AppColors.background,
     width: "100%"
   },
   buttonText: { color: '#fff', fontSize: 18, fontWeight: '600' },
