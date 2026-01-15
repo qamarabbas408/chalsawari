@@ -2,13 +2,13 @@
 
 const AppColors = {
   // Primary brand colors
-  background: '#581c87',   // deep purple background
+  primaryBg: '#581c87',   // deep purple background
+  secondaryBg: '#22c55e',
   primary: '#0f172a',      // dark navy
   secondary: '#475569',    // slate gray
 
   // Accent colors
   orange: '#f97316',
-  green: '#22c55e',
   red: '#ef4444',
   yellow: '#eab308',
   blue: '#3b82f6',
@@ -19,7 +19,7 @@ const AppColors = {
   grayLight: '#f1f5f9',
   grayDark: '#334155',
 
-  // Transparency helpers
+  inputBg : '#ebf1f4',
   transparent: 'transparent',
 };
 
