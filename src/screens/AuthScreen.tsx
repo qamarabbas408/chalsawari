@@ -5,7 +5,10 @@ import AppButton from '../components/AppButton';
 import AppIconButton from '../components/AppIconButton';
 import AppColors from '../styles/AppColors';
 import { ScrollView } from 'react-native';
+import { handleNavigationTo } from '../utils/AppUtils';
 export default function AuthScreen({ navigation }) {
+
+    
     return (
         <ScrollView
             contentContainerStyle={
@@ -57,7 +60,7 @@ export default function AuthScreen({ navigation }) {
                 variant="roundedShiny"
                 style={styles.button}
                 textStyle={GlobalStyles.button}
-                onPress={() => console.log('Password login')}
+                onPress={() => handleNavigationTo(navigation, 'Login')}
             />
 
             {/* Signup Redirect */}
@@ -89,7 +92,7 @@ const styles = StyleSheet.create({
     button: {
         width: '100%',
         marginVertical: 8,
-        backgroundColor: '#581c87', // consistent CTA color
+        backgroundColor: AppColors.primaryBg, // consistent CTA color
         paddingVertical: 12,
     },
     signupContainer: {
@@ -97,7 +100,7 @@ const styles = StyleSheet.create({
         marginTop: 24,
     },
     signupLink: {
-        color: '#22c55e', // theme green for link
+        color: AppColors.secondaryBg, // theme green for link
         marginLeft: 6,
         fontFamily: 'Poppins-SemiBold',
     },

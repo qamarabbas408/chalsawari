@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   roundedShiny: {
     ...GlobalStyles.shinyBorder,
-    backgroundColor: '#581c87',
+    backgroundColor: 'AppColors.primaryBg',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 50,

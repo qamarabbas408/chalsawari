@@ -6,7 +6,7 @@ import GlobalStyles from '../styles/GlobalStyles';
 import AppButton from '../components/AppButton';
 import AppColors from '../styles/AppColors';
 import { CommonActions, useFocusEffect } from '@react-navigation/native';
-
+import { handleNavigationTo } from '../utils/AppUtils';
 interface IntroScreenProps {
   navigation: any;
 }
@@ -63,14 +63,7 @@ export default function IntroScreen({ navigation }: IntroScreenProps) {
     }).start();
   };
 
-  const handleProceed = () => {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'Auth' }],
-      })
-    );
-  };
+
 
   return (
     <View style={styles.container}>
@@ -133,7 +126,7 @@ export default function IntroScreen({ navigation }: IntroScreenProps) {
             variant="roundedShiny"
             style={styles.button}
             title="Proceed"
-            onPress={handleProceed}
+            onPress={()=>handleNavigationTo(navigation, 'Auth')}
           />
         </View>
       </View>
@@ -180,7 +173,7 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 12,
     paddingHorizontal: 100,
-    backgroundColor: AppColors.background,
+    backgroundColor: AppColors.primaryBg,
     width: '100%',
   },
 });

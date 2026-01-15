@@ -44,8 +44,8 @@ const GlobalStyles = {
   ...GlobalTypoStyles,
   shinyBorderBackgroundColor: {
     ...RootStyles.shinyBorder,
-    shadowColor: AppColors.background,
-    borderColor: AppColors.background,
+    shadowColor: AppColors.primaryBg,
+    borderColor: AppColors.primaryBg,
   },
   roundedBorderw1: {
     ...RootStyles.roundedBorder,
