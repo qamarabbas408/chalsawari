@@ -5,7 +5,7 @@ import AppButton from '../components/AppButton';
 import AppIconButton from '../components/AppIconButton';
 import AppColors from '../styles/AppColors';
 import { ScrollView } from 'react-native';
-export default function LoginScreen({ navigation }) {
+export default function AuthScreen({ navigation }) {
     return (
         <ScrollView
             contentContainerStyle={
@@ -20,7 +20,7 @@ export default function LoginScreen({ navigation }) {
             />
 
             {/* Heading */}
-            <Text style={[GlobalStyles.h2, { marginBottom: 12 }]}>Let’s get started</Text>
+            <Text style={[GlobalStyles.h2, { marginBottom: 12 }]}>Let’s get started!</Text>
             <AppButton
                 title="Sign in with Google"
                 variant="rounded"
