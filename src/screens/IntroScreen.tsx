@@ -1,34 +1,29 @@
-// src/screens/IntroScreen.tsx
-import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, Image, Text, Animated, AppState } from 'react-native';
-import Video from 'react-native-video';
+import React, { useRef, useEffect, useCallback } from 'react';
+import { View, StyleSheet, Image, Text, AppState } from 'react-native';
+import LottieView from 'lottie-react-native';
 import GlobalStyles from '../styles/GlobalStyles';
 import AppButton from '../components/AppButton';
 import AppColors from '../styles/AppColors';
-import { CommonActions, useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { handleNavigationTo } from '../utils/AppUtils';
+
 interface IntroScreenProps {
   navigation: any;
 }
 
 export default function IntroScreen({ navigation }: IntroScreenProps) {
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const [videoReady, setVideoReady] = useState(false);
-  const [paused, setPaused] = useState(false);
-  const videoRef = useRef<Video>(null);
-  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const animationRef = useRef<LottieView>(null);
   const appState = useRef(AppState.currentState);
 
-  // Handle app state changes (background/foreground)
   useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
       if (
         appState.current.match(/inactive|background/) &&
         nextAppState === 'active'
       ) {
-        setPaused(false); // Resume video when app comes to foreground
+        animationRef.current?.play();
       } else if (nextAppState.match(/inactive|background/)) {
-        setPaused(true); // Pause video when app goes to background
+        animationRef.current?.pause();
       }
       appState.current = nextAppState;
     });
@@ -38,75 +33,26 @@ export default function IntroScreen({ navigation }: IntroScreenProps) {
     };
   }, []);
 
-  // Handle screen focus (navigation)
   useFocusEffect(
-    React.useCallback(() => {
-      setPaused(false); // Resume when screen is focused
+    useCallback(() => {
+      animationRef.current?.play();
       return () => {
-        setPaused(true); // Pause when screen loses focus
+        animationRef.current?.pause();
       };
     }, [])
   );
 
-  // Smooth fade transition from image to video
-  const handleVideoLoad = () => {
-    setVideoLoaded(true);
-  };
-
-  const handleVideoReadyForDisplay = () => {
-    setVideoReady(true);
-    // Fade out the fallback image smoothly
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: 500,
-      useNativeDriver: true,
-    }).start();
-  };
-
-
-
   return (
     <View style={styles.container}>
-      {/* Background looping video */}
-      <Video
-        ref={videoRef}
-        source={require('../assets/intro.mp4')}
-        style={styles.video}
+      <LottieView
+        ref={animationRef}
+        source={require('../assets/animations/intro-car.json')}
+        style={styles.background}
+        autoPlay
+        loop
         resizeMode="cover"
-        repeat
-        muted
-        paused={paused}
-        playInBackground={false}
-        playWhenInactive={false}
-        onLoad={handleVideoLoad}
-        onReadyForDisplay={handleVideoReadyForDisplay}
-        onError={(error) => {
-          console.error('Video error:', error);
-          setVideoLoaded(false);
-        }}
-        // Performance optimizations
-        poster={undefined} // Disable default poster for custom fallback
-        posterResizeMode="cover"
-        bufferConfig={{
-          minBufferMs: 2000,
-          maxBufferMs: 5000,
-          bufferForPlaybackMs: 1000,
-          bufferForPlaybackAfterRebufferMs: 1500,
-        }}
-        maxBitRate={2000000} // Limit bitrate for faster loading
       />
 
-      {/* Fallback image with smooth fade transition */}
-      {!videoReady && (
-        <Animated.Image
-          style={[styles.video, { opacity: fadeAnim }]}
-          source={require('../assets/intro-bg.jpeg')}
-          resizeMode="cover"
-          fadeDuration={0} // Disable default fade for custom animation
-        />
-      )}
-
-      {/* Overlay content */}
       <View style={styles.overlay}>
         <View style={styles.content}>
           <Text style={styles.heading}>Welcome to</Text>
@@ -139,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
   },
-  video: {
+  background: {
     ...StyleSheet.absoluteFillObject,
   },
   overlay: {
