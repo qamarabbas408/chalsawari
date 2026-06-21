@@ -14,16 +14,16 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser(state, action: PayloadAction<string>) {
+    loginUser(state, action: PayloadAction<string>) {
       state.name = action.payload;
       state.isLoggedIn = true;
     },
-    logout(state) {
+    logoutUser(state) {
       state.name = '';
       state.isLoggedIn = false;
     },
   },
 });
 
-export const { setUser, logout } = userSlice.actions;
+export const { loginUser, logoutUser } = userSlice.actions;
 export default userSlice.reducer;
