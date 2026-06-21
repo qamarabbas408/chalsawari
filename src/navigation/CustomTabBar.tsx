@@ -1,16 +1,16 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
   Dimensions,
   Platform,
 } from 'react-native';
+import LottieView from 'lottie-react-native';
 
 const TEAL = '#00635A';
-const AMBER = '#E07A00';
+const ORANGE = '#f97316';
 const WHITE = '#FFFFFF';
 const SCREEN_BG = '#F0F0F0';
 
@@ -22,7 +22,57 @@ const FAB_PAD = 5;
 const FAB_PADDED_SIZE = FAB_SIZE + FAB_PAD * 2;
 const FAB_PADDED_RADIUS = FAB_PADDED_SIZE / 2;
 const CORNER_RADIUS = 24;
-const ICON_SIZE = 22;
+const ICON_SIZE = 24;
+const FAB_ICON_SIZE = 26;
+
+function hexToLottieColor(hex: string): [number, number, number, number] {
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  return [Math.round(r * 1000) / 1000, Math.round(g * 1000) / 1000, Math.round(b * 1000) / 1000, 1];
+}
+
+function recolorLottie(source: any, targetHex: string) {
+  const target = hexToLottieColor(targetHex);
+  const clone = JSON.parse(JSON.stringify(source));
+
+  function walk(obj: any) {
+    if (!obj || typeof obj !== 'object') return;
+    if (Array.isArray(obj)) {
+      if (obj.length === 4 && obj.every((v: any) => typeof v === 'number') && obj[3] === 1) {
+        obj[0] = target[0];
+        obj[1] = target[1];
+        obj[2] = target[2];
+        obj[3] = target[3];
+        return;
+      }
+      obj.forEach(walk);
+    } else {
+      Object.values(obj).forEach(walk);
+    }
+  }
+
+  walk(clone);
+  return clone;
+}
+
+const RAW_SOURCES: Record<string, any> = {
+  Home: require('../assets/animations/tab-icons/home.json'),
+  Events: require('../assets/animations/tab-icons/calendar.json'),
+  Bookings: require('../assets/animations/tab-icons/bookmark.json'),
+  Setting: require('../assets/animations/tab-icons/settings.json'),
+};
+
+const SOURCE_ORANGE = Object.fromEntries(
+  Object.entries(RAW_SOURCES).map(([k, v]) => [k, recolorLottie(v, ORANGE)])
+);
+
+const SOURCE_WHITE = Object.fromEntries(
+  Object.entries(RAW_SOURCES).map(([k, v]) => [k, recolorLottie(v, WHITE)])
+);
+
+const EXPLORE_SOURCE_WHITE = recolorLottie(require('../assets/animations/tab-icons/explore.json'), WHITE);
+const EXPLORE_SOURCE_ORANGE = recolorLottie(require('../assets/animations/tab-icons/explore.json'), ORANGE);
 
 interface TabRoute {
   key: string;
@@ -45,12 +95,28 @@ interface CustomTabBarProps {
   };
 }
 
-function labelColor(isFocused: boolean) {
-  return isFocused ? AMBER : WHITE;
-}
-
 export default function CustomTabBar({ state, navigation, insets }: CustomTabBarProps) {
   const totalHeight = BAR_HEIGHT + insets.bottom;
+  const lottieRefs = useRef<(LottieView | null)[]>([]);
+  const fabLottieRef = useRef<LottieView | null>(null);
+  const isExploreFocused = state.index === 2;
+
+  useEffect(() => {
+    lottieRefs.current.forEach((ref, i) => {
+      if (i === state.index) {
+        ref?.reset();
+        ref?.play();
+      } else {
+        ref?.reset();
+      }
+    });
+    if (isExploreFocused) {
+      fabLottieRef.current?.reset();
+      fabLottieRef.current?.play();
+    } else {
+      fabLottieRef.current?.reset();
+    }
+  }, [state.index]);
 
   const handleTabPress = useCallback(
     (routeName: string) => {
@@ -84,17 +150,16 @@ export default function CustomTabBar({ state, navigation, insets }: CustomTabBar
         onPress={() => handleTabPress(route.name)}
         style={styles.tabItem}
       >
-        {route.name === 'Setting' ? (
-          <Image
-            source={isFocused ? require('../assets/icons/bottom_nav/profile-active.png') : require('../assets/icons/bottom_nav/profile.png')}
-            style={[styles.icon, { tintColor: isFocused ? undefined : WHITE }]}
-          />
-        ) : (
-          <Text style={[styles.iconText, { color: isFocused ? AMBER : WHITE }]}>
-            {route.name === 'Home' ? '✦' : route.name === 'Events' ? '◆' : '●'}
-          </Text>
-        )}
-        <Text style={[styles.label, { color: labelColor(isFocused) }]}>
+        <LottieView
+          key={isFocused ? 'active' : 'inactive'}
+          ref={ref => { lottieRefs.current[index] = ref; }}
+          source={isFocused ? SOURCE_ORANGE[route.name] : SOURCE_WHITE[route.name]}
+          style={styles.lottieIcon}
+          loop={false}
+          autoPlay={false}
+          resizeMode="contain"
+        />
+        <Text style={[styles.label, { color: isFocused ? ORANGE : WHITE }]}>
           {route.name === 'Bookings' ? 'Booking' : route.name}
         </Text>
       </TouchableOpacity>
@@ -120,7 +185,15 @@ export default function CustomTabBar({ state, navigation, insets }: CustomTabBar
       >
         <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Explore')} style={styles.fabPad}>
           <View style={styles.fab}>
-            <Text style={styles.fabIcon}>✦</Text>
+            <LottieView
+              key={isExploreFocused ? 'active' : 'inactive'}
+              ref={ref => { fabLottieRef.current = ref; }}
+              source={isExploreFocused ? EXPLORE_SOURCE_ORANGE : EXPLORE_SOURCE_WHITE}
+              style={styles.fabLottie}
+              loop={false}
+              autoPlay={false}
+              resizeMode="contain"
+            />
           </View>
         </TouchableOpacity>
       </View>
@@ -153,7 +226,7 @@ const styles = StyleSheet.create({
   contentRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    paddingBottom: 2,
+    paddingBottom: 4,
   },
   tabItem: {
     flex: 1,
@@ -167,13 +240,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingBottom: 6,
   },
-  icon: {
+  lottieIcon: {
     width: ICON_SIZE,
     height: ICON_SIZE,
-    resizeMode: 'contain',
-  },
-  iconText: {
-    fontSize: ICON_SIZE,
+    
   },
   label: {
     fontSize: 10,
@@ -215,5 +285,9 @@ const styles = StyleSheet.create({
   fabIcon: {
     fontSize: 22,
     color: WHITE,
+  },
+  fabLottie: {
+    width: FAB_ICON_SIZE,
+    height: FAB_ICON_SIZE,
   },
 });
