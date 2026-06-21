@@ -12,6 +12,7 @@ import AppInput from '../components/AppInput'; // your reusable input component
 import { ScrollView } from 'react-native';
 import { error } from 'node:console';
 import AppColors from '../styles/AppColors';
+import { handleNavigationTo } from '../utils/AppUtils';
 export default function LoginScreen({ navigation }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -26,7 +27,7 @@ export default function LoginScreen({ navigation }) {
 
         if (Object.keys(newErrors).length === 0) {
             console.log('Login successful');
-            // navigation.navigate('Home');
+            handleNavigationTo(navigation, 'BottomTabs')
         }
     };
 

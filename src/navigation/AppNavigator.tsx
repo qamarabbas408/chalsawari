@@ -7,20 +7,21 @@ import IntroScreen from '../screens/IntroScreen';
 // import LoginScreen from '../screens/AuthScreen';
 import AuthScreen from '../screens/AuthScreen';
 import LoginScreen from '../screens/LoginScreen';
-
+import BottomNavigator from './BottomNavigator';
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false,
-         animation: 'fade', // options: 'default', 'fade', 'slide_from_right', 'slide_from_left', 'slide_from_bottom'
-       }}>
+      <Stack.Navigator screenOptions={{
+        headerShown: false,
+        animation: 'fade', // options: 'default', 'fade', 'slide_from_right', 'slide_from_left', 'slide_from_bottom'
+      }}>
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Intro" component={IntroScreen} />
         <Stack.Screen name="Auth" component={AuthScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
-
+        <Stack.Screen name="BottomTabs" component={BottomNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
   );
