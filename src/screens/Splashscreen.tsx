@@ -1,19 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Image, Animated, StyleSheet, Dimensions } from 'react-native';
 import { useNavigation, CommonActions } from '@react-navigation/native';
-import Loader from '../components/Loader';
+import LottieView from 'lottie-react-native';
+import { recolorLottie } from '../utils/lottieUtils';
 
 const { height, width } = Dimensions.get('window');
+
+const exploreWhite = recolorLottie(require('../assets/animations/tab-icons/explore.json'), '#FFFFFF');
 
 export default function SplashScreen() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(100)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
-  const glowAnim = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
-  const [showLoader, setShowLoader] = useState(false)
+  const [showLoader, setShowLoader] = useState(false);
+
   useEffect(() => {
-    // Main container animation
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -27,30 +29,22 @@ export default function SplashScreen() {
       }),
     ]).start(() => {
       setShowLoader(true);
-      // Simulate API call with 5s delay 
       setTimeout(() => {
-        // Example in SplashScreen
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
             routes: [{ name: 'Intro' }],
           })
         );
-
-      }, 5000);
-
+      }, 2500);
     });
-
   }, []);
 
   return (
-
     <View style={styles.container}>
-
       <Image source={require('../assets/splash-bg.png')} style={styles.background} />
 
       <View style={styles.contentContainer}>
-        {/* Animated Logo Container */}
         <Animated.View
           style={[
             styles.logoContainer,
@@ -61,37 +55,34 @@ export default function SplashScreen() {
           ]}
         >
           <View>
-            {/* Logo Image */}
             <Animated.Image
-
               source={require('../assets/chal-sawari-logo.png')}
               style={[
                 styles.logo,
-
                 {
                   transform: [{ scale: scaleAnim }],
                   opacity: scaleAnim,
                 },
               ]}
               resizeMode="contain"
-
             />
-
           </View>
-
         </Animated.View>
 
-        {
-          showLoader ? <Loader /> : <View style={{
-            width: 60,
-            height: 60
-
-          }}></View>
-        }
+        {showLoader ? (
+          <View style={styles.compassContainer}>
+            <LottieView
+              source={exploreWhite}
+              style={styles.compass}
+              loop
+              autoPlay
+              resizeMode="contain"
+            />
+          </View>
+        ) : (
+          <View style={{ width: 50, height: 50 }} />
+        )}
       </View>
-
-
-
     </View>
   );
 }
@@ -103,7 +94,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-  
   },
   background: {
     position: 'absolute',
@@ -116,7 +106,6 @@ const styles = StyleSheet.create({
     width: width,
     maxWidth: 400,
     height: height,
-    // alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
   },
@@ -129,5 +118,13 @@ const styles = StyleSheet.create({
     height: 200,
     zIndex: 20,
   },
-
+  compassContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 40,
+  },
+  compass: {
+    width: 50,
+    height: 50,
+  },
 });
