@@ -1,46 +1,46 @@
 import React, { useRef, useEffect, useCallback } from 'react';
-import { View, StyleSheet, Image, Text, AppState } from 'react-native';
+import { View, StyleSheet, Text, AppState, TouchableOpacity, Image, Dimensions } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import LottieView from 'lottie-react-native';
-import GlobalStyles from '../styles/GlobalStyles';
-import AppButton from '../components/AppButton';
-import AppColors from '../styles/AppColors';
+import GlobalFonts from '../styles/GlobalFonts';
 import { useFocusEffect } from '@react-navigation/native';
 import { handleNavigationTo } from '../utils/AppUtils';
 
-interface IntroScreenProps {
-  navigation: any;
-}
+const { width } = Dimensions.get('window');
 
-export default function IntroScreen({ navigation }: IntroScreenProps) {
+const PURPLE = '#581c87';
+const ORANGE = '#f97316';
+const WHITE = '#FFFFFF';
+
+export default function IntroScreen({ navigation }: any) {
   const animationRef = useRef<LottieView>(null);
   const appState = useRef(AppState.currentState);
+  const pressed = useRef(false);
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
-      if (
-        appState.current.match(/inactive|background/) &&
-        nextAppState === 'active'
-      ) {
+      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
         animationRef.current?.play();
       } else if (nextAppState.match(/inactive|background/)) {
         animationRef.current?.pause();
       }
       appState.current = nextAppState;
     });
-
-    return () => {
-      subscription.remove();
-    };
+    return () => subscription.remove();
   }, []);
 
   useFocusEffect(
     useCallback(() => {
       animationRef.current?.play();
-      return () => {
-        animationRef.current?.pause();
-      };
+      return () => animationRef.current?.pause();
     }, [])
   );
+
+  const handlePress = () => {
+    if (pressed.current) return;
+    pressed.current = true;
+    handleNavigationTo(navigation, 'Auth');
+  };
 
   return (
     <View style={styles.container}>
@@ -53,28 +53,41 @@ export default function IntroScreen({ navigation }: IntroScreenProps) {
         resizeMode="cover"
       />
 
-      <View style={styles.overlay}>
-        <View style={styles.content}>
-          <Text style={styles.heading}>Welcome to</Text>
+      <LinearGradient
+        colors={['#0f172a', 'rgba(88,28,135,0.85)', 'rgba(15,23,42,0.55)', 'rgba(15,23,42,0.45)']}
+        locations={[0, 0.35, 0.75, 1]}
+        style={styles.overlay}
+      />
 
-          <Image
-            source={require('../assets/chal-sawari-logo.png')}
-            style={styles.logo}
-            resizeMode="contain"
-          />
+      <View style={styles.topAccent} />
 
-          <Text style={styles.description}>
-            ChalSawari brings you a seamless ride experience with comfort and trust.
-          </Text>
+      <View style={styles.content}>
+        <Image
+          source={require('../assets/chal-sawari-logo.png')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <Text style={styles.tagline}>Your ride. Your city. Anytime.</Text>
 
-          <AppButton
-            textStyle={[GlobalStyles.body2, GlobalStyles.textLight]}
-            variant="roundedShiny"
-            style={styles.button}
-            title="Proceed"
-            onPress={()=>handleNavigationTo(navigation, 'Auth')}
-          />
+        <View style={styles.featureRow}>
+          <View style={styles.chip}>
+            <Text style={styles.chipText}>Fast & reliable</Text>
+          </View>
+          <View style={styles.chip}>
+            <Text style={styles.chipText}>Affordable fares</Text>
+          </View>
+          <View style={styles.chip}>
+            <Text style={styles.chipText}>Safe drivers</Text>
+          </View>
         </View>
+
+        <TouchableOpacity
+          activeOpacity={0.85}
+          onPress={handlePress}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Get Started →</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -83,43 +96,85 @@ export default function IntroScreen({ navigation }: IntroScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#0f172a',
   },
   background: {
-    ...StyleSheet.absoluteFillObject,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  topAccent: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 4,
+    backgroundColor: ORANGE,
   },
   content: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-start',
-    paddingHorizontal: 20,
-    paddingBottom: 60,
-    gap: 8,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 28,
+    paddingBottom: 50,
+    paddingTop: 30,
   },
   logo: {
-    width: 240,
-    height: 100,
-    marginVertical: 4,
+    width: width * 0.85,
+    height: 90,
+    marginBottom: 8,
+    marginLeft: -4,
   },
-  description: {
-    ...GlobalStyles.body2,
-    ...GlobalStyles.textLight,
-    marginBottom: 12,
-    marginLeft: 12,
+  tagline: {
+    fontFamily: GlobalFonts.Inter.Regular,
+    fontSize: 16,
+    color: 'rgba(255,255,255,0.7)',
+    marginBottom: 24,
   },
-  heading: {
-    ...GlobalStyles.h1,
-    ...GlobalStyles.textLight,
-    marginLeft: 12,
+  featureRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginBottom: 36,
+  },
+  chip: {
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.12)',
+  },
+  chipText: {
+    fontFamily: GlobalFonts.Inter.Regular,
+    fontSize: 12,
+    color: 'rgba(255,255,255,0.85)',
   },
   button: {
-    paddingVertical: 12,
-    paddingHorizontal: 100,
-    backgroundColor: AppColors.primaryBg,
-    width: '100%',
+    backgroundColor: ORANGE,
+    borderRadius: 16,
+    paddingVertical: 17,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: ORANGE,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.35,
+    shadowRadius: 12,
+    elevation: 8,
+  },
+  buttonText: {
+    fontFamily: GlobalFonts.Montserrat.Bold,
+    fontSize: 17,
+    color: WHITE,
   },
 });
