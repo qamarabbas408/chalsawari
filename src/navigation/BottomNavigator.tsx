@@ -16,7 +16,10 @@ export default function BottomNavigator() {
       tabBar={({ state, navigation, insets }) => (
         <CustomTabBar state={state} navigation={navigation} insets={insets} />
       )}
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { backgroundColor: 'transparent', borderTopWidth: 0, elevation: 0 },
+      }}
       initialRouteName="Explore"
     >
       <Tab.Screen name="Home" component={HomeScreen} />

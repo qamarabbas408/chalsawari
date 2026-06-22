@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   scroll: {
     paddingHorizontal: 24,
     paddingTop: 56,
-    paddingBottom: 90,
+    paddingBottom: 110,
   },
   greeting: {
     fontFamily: GlobalFonts.Inter.Regular,

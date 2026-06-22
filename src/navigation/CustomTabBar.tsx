@@ -7,13 +7,13 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import LottieView from 'lottie-react-native';
 import { recolorLottie } from '../utils/lottieUtils';
 
 const TEAL = '#00635A';
 const ORANGE = '#f97316';
 const WHITE = '#FFFFFF';
-const SCREEN_BG = '#F0F0F0';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const BAR_HEIGHT = 65;
@@ -107,7 +107,7 @@ export default function CustomTabBar({ state, navigation, insets }: CustomTabBar
           style={styles.exploreColumn}
         >
           <Text style={[styles.label, { color: WHITE, fontFamily: 'Inter-SemiBold' }]}>
-            EXPLORE
+            EXP
           </Text>
         </TouchableOpacity>
       );
@@ -154,6 +154,11 @@ export default function CustomTabBar({ state, navigation, insets }: CustomTabBar
         ]}
       >
         <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Explore')} style={styles.fabPad}>
+          <LinearGradient
+            colors={['#0f172a', 'rgba(88,28,135,0.9)', 'rgba(88,28,135,0.6)']}
+            locations={[0, 0.5, 1]}
+            style={styles.fabPadGradient}
+          >
           <View style={styles.fab}>
             <LottieView
               key={isExploreFocused ? 'active' : 'inactive'}
@@ -165,6 +170,7 @@ export default function CustomTabBar({ state, navigation, insets }: CustomTabBar
               resizeMode="contain"
             />
           </View>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
     </View>
@@ -173,8 +179,11 @@ export default function CustomTabBar({ state, navigation, insets }: CustomTabBar
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
-    width: SCREEN_WIDTH,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'transparent',
   },
   barArea: {
     backgroundColor: TEAL,
@@ -229,20 +238,27 @@ const styles = StyleSheet.create({
     width: FAB_PADDED_SIZE,
     height: FAB_PADDED_SIZE,
     borderRadius: FAB_PADDED_RADIUS,
-    backgroundColor: SCREEN_BG,
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.15,
         shadowRadius: 6,
       },
       android: {
         elevation: 4,
       },
     }),
+  },
+  fabPadGradient: {
+    width: FAB_PADDED_SIZE,
+    height: FAB_PADDED_SIZE,
+    borderRadius: FAB_PADDED_RADIUS,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   fab: {
     width: FAB_SIZE,
