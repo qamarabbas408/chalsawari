@@ -41,6 +41,7 @@ const SOURCE_WHITE = Object.fromEntries(
 );
 
 const EXPLORE_SOURCE_WHITE = recolorLottie(require('../assets/animations/tab-icons/explore.json'), WHITE);
+const EXPLORE_SOURCE_ORANGE = recolorLottie(require('../assets/animations/tab-icons/explore.json'), ORANGE);
 
 interface TabRoute {
   key: string;
@@ -156,7 +157,7 @@ export default function CustomTabBar({ state, navigation, insets }: CustomTabBar
             <LottieView
               key={isExploreFocused ? 'active' : 'inactive'}
               ref={ref => { fabLottieRef.current = ref; }}
-              source={EXPLORE_SOURCE_WHITE}
+              source={isExploreFocused ? EXPLORE_SOURCE_ORANGE : EXPLORE_SOURCE_WHITE}
               style={styles.fabLottie}
               loop={false}
               autoPlay={false}

@@ -42,11 +42,8 @@ export default function LoginScreen({ navigation }: any) {
         contentContainerStyle={styles.scroll}
         keyboardShouldPersistTaps="handled"
       >
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Image
-            source={require('../assets/icons/back.png')}
-            style={styles.backIcon}
-          />
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Auth')}>
+          <Text style={styles.backArrow}>‹</Text>
           <Text style={styles.backText}>Back</Text>
         </TouchableOpacity>
 
@@ -139,10 +136,10 @@ const styles = StyleSheet.create({
     marginBottom: 32,
     alignSelf: 'flex-start',
   },
-  backIcon: {
-    width: 22,
-    height: 22,
-    tintColor: 'rgba(255,255,255,0.7)',
+  backArrow: {
+    fontSize: 28,
+    color: 'rgba(255,255,255,0.7)',
+    lineHeight: 28,
   },
   backText: {
     fontFamily: GlobalFonts.Inter.Regular,
