@@ -75,7 +75,7 @@ const AppButton: React.FC<ButtonProps> = ({
                         height: 24,
                         width: 24,
                     }} />
-                } <Text style={[styles.text, textStyle]}>{title}</Text>
+                }<Text style={[styles.text, textStyle]}>{title}</Text>
             </Animated.View>
         </TouchableWithoutFeedback>
     );
