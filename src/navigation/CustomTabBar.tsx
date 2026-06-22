@@ -7,7 +7,6 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import LottieView from 'lottie-react-native';
 import { recolorLottie } from '../utils/lottieUtils';
 
@@ -42,8 +41,6 @@ const SOURCE_WHITE = Object.fromEntries(
 );
 
 const EXPLORE_SOURCE_WHITE = recolorLottie(require('../assets/animations/tab-icons/explore.json'), WHITE);
-const EXPLORE_SOURCE_ORANGE = recolorLottie(require('../assets/animations/tab-icons/explore.json'), ORANGE);
-const EXPLORE_SOURCE_TEAL = recolorLottie(require('../assets/animations/tab-icons/explore.json'), TEAL);
 
 interface TabRoute {
   key: string;
@@ -108,7 +105,7 @@ export default function CustomTabBar({ state, navigation, insets }: CustomTabBar
           style={styles.exploreColumn}
         >
           <Text style={[styles.label, { color: WHITE, fontFamily: 'Inter-SemiBold' }]}>
-            EXP
+            EXPLORE
           </Text>
         </TouchableOpacity>
       );
@@ -155,23 +152,17 @@ export default function CustomTabBar({ state, navigation, insets }: CustomTabBar
         ]}
       >
         <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Explore')} style={styles.fabPad}>
-          <LinearGradient
-            colors={['#0f172a', 'rgba(88,28,135,0.9)', 'rgba(88,28,135,0.6)']}
-            locations={[0, 0.5, 1]}
-            style={styles.fabPadGradient}
-          >
           <View style={styles.fab}>
             <LottieView
               key={isExploreFocused ? 'active' : 'inactive'}
               ref={ref => { fabLottieRef.current = ref; }}
-              source={EXPLORE_SOURCE_TEAL}
+              source={EXPLORE_SOURCE_WHITE}
               style={styles.fabLottie}
               loop={false}
               autoPlay={false}
               resizeMode="contain"
             />
           </View>
-          </LinearGradient>
         </TouchableOpacity>
       </View>
     </View>
@@ -239,7 +230,7 @@ const styles = StyleSheet.create({
     width: FAB_PADDED_SIZE,
     height: FAB_PADDED_SIZE,
     borderRadius: FAB_PADDED_RADIUS,
-    backgroundColor: 'transparent',
+    backgroundColor: ORANGE,
     alignItems: 'center',
     justifyContent: 'center',
     ...Platform.select({
@@ -254,20 +245,15 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  fabPadGradient: {
-    width: FAB_PADDED_SIZE,
-    height: FAB_PADDED_SIZE,
-    borderRadius: FAB_PADDED_RADIUS,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+
   fab: {
     width: FAB_SIZE,
     height: FAB_SIZE,
     borderRadius: FAB_RADIUS,
-    backgroundColor: ORANGE,
+    backgroundColor: TEAL,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
   },
   fabIcon: {
     fontSize: 22,
