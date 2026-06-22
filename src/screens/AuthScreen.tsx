@@ -1,114 +1,191 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import GlobalStyles from '../styles/GlobalStyles';
-import AppButton from '../components/AppButton';
-import AppIconButton from '../components/AppIconButton';
-import AppColors from '../styles/AppColors';
-import { ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import GlobalFonts from '../styles/GlobalFonts';
 import { handleNavigationTo } from '../utils/AppUtils';
-export default function AuthScreen({ navigation }) {
 
-    
-    return (
-        <ScrollView
-            contentContainerStyle={
-                styles.container
-            }
-        >
-            {/* Logo */}
+const PURPLE = '#581c87';
+const ORANGE = '#f97316';
+const WHITE = '#FFFFFF';
+
+export default function AuthScreen({ navigation }: any) {
+  return (
+    <LinearGradient
+      colors={['#0f172a', 'rgba(88,28,135,0.9)', 'rgba(88,28,135,0.6)']}
+      locations={[0, 0.5, 1]}
+      style={styles.container}
+    >
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.topSection}>
+          <Image
+            source={require('../assets/chal-sawari-logo.png')}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+          <Text style={styles.heading}>Let's get started!</Text>
+          <Text style={styles.subheading}>Sign in to continue your ride experience</Text>
+        </View>
+
+        <View style={styles.socialSection}>
+          <TouchableOpacity
+            activeOpacity={0.85}
+            style={styles.socialButton}
+            onPress={() => console.log('Google login')}
+          >
             <Image
-                source={require('../assets/chal-sawari-logo.png')}
-                style={styles.logo}
-                resizeMode="contain"
+              source={require('../assets/icons/google.png')}
+              style={styles.socialIcon}
+              resizeMode="contain"
             />
+            <Text style={styles.socialText}>Sign in with Google</Text>
+          </TouchableOpacity>
 
-            {/* Heading */}
-            <Text style={[GlobalStyles.h2, { marginBottom: 12 }]}>Let’s get started!</Text>
-            <AppButton
-                title="Sign in with Google"
-                variant="rounded"
-                style={[styles.button, {
-                    backgroundColor: AppColors.white,
-                }]}
-                textStyle={[GlobalStyles.button, {
-                    color: AppColors.black
-                }]}
-                icon={require('../assets/icons/google.png')}
-                onPress={() => console.log('Password login')}
+          <TouchableOpacity
+            activeOpacity={0.85}
+            style={styles.socialButton}
+            onPress={() => console.log('Facebook login')}
+          >
+            <Image
+              source={require('../assets/icons/facebook.png')}
+              style={styles.socialIcon}
+              resizeMode="contain"
             />
-            <AppButton
-                title="Sign in with Facebook"
-                variant="rounded"
-                style={[styles.button, {
-                    backgroundColor: AppColors.white,
-                }]}
-                textStyle={[GlobalStyles.button, {
-                    color: AppColors.black
-                }]}
-                onPress={() => console.log('Password login')}
-                icon={require('../assets/icons/facebook.png')}
+            <Text style={styles.socialText}>Sign in with Facebook</Text>
+          </TouchableOpacity>
+        </View>
 
-            />
-            <View style={styles.orContainer}>
-                <View style={GlobalStyles.line} />
-                <Text style={GlobalStyles.body3}>OR</Text>
-                <View style={GlobalStyles.line} />
-            </View>
+        <View style={styles.orContainer}>
+          <View style={styles.orLine} />
+          <Text style={styles.orText}>OR</Text>
+          <View style={styles.orLine} />
+        </View>
 
-            <AppButton
-                title="Sign in with Password"
-                variant="roundedShiny"
-                style={styles.button}
-                textStyle={GlobalStyles.button}
-                onPress={() => handleNavigationTo(navigation, 'Login')}
-            />
+        <TouchableOpacity
+          activeOpacity={0.85}
+          style={styles.passwordButton}
+          onPress={() => handleNavigationTo(navigation, 'Login')}
+        >
+          <Text style={styles.passwordText}>Sign in with Password</Text>
+        </TouchableOpacity>
 
-            {/* Signup Redirect */}
-            <View style={styles.signupContainer}>
-                <Text style={GlobalStyles.body3}>Don’t have an account?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                    <Text style={[GlobalStyles.body3, styles.signupLink]}>
-                        Sign up
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        </ScrollView>
-    );
+        <View style={styles.signupContainer}>
+          <Text style={styles.signupText}>Don't have an account?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+            <Text style={styles.signupLink}> Sign up</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </LinearGradient>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff', // white background
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 24,
-    },
-    logo: {
-        width: 200,
-        height: 100,
-        marginBottom: 24,
-    },
-    button: {
-        width: '100%',
-        marginVertical: 8,
-        backgroundColor: AppColors.primaryBg, // consistent CTA color
-        paddingVertical: 12,
-    },
-    signupContainer: {
-        flexDirection: 'row',
-        marginTop: 24,
-    },
-    signupLink: {
-        color: AppColors.secondaryBg, // theme green for link
-        marginLeft: 6,
-        fontFamily: 'Poppins-SemiBold',
-    },
-    orContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginVertical: 16,
-        width: '100%',
-        justifyContent: 'center',
-    },
+  container: {
+    flex: 1,
+  },
+  scroll: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 28,
+    paddingVertical: 40,
+  },
+  topSection: {
+    alignItems: 'center',
+    marginBottom: 36,
+  },
+  logo: {
+    width: 180,
+    height: 80,
+    marginBottom: 20,
+  },
+  heading: {
+    fontFamily: GlobalFonts.Montserrat.Bold,
+    fontSize: 28,
+    color: WHITE,
+    marginBottom: 6,
+  },
+  subheading: {
+    fontFamily: GlobalFonts.Inter.Regular,
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.6)',
+  },
+  socialSection: {
+    gap: 14,
+    marginBottom: 24,
+  },
+  socialButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: WHITE,
+    borderRadius: 16,
+    paddingVertical: 16,
+    gap: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  socialIcon: {
+    width: 22,
+    height: 22,
+  },
+  socialText: {
+    fontFamily: GlobalFonts.Inter.Medium,
+    fontSize: 15,
+    color: '#1f2937',
+  },
+  orContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  orLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+  },
+  orText: {
+    fontFamily: GlobalFonts.Inter.Regular,
+    fontSize: 13,
+    color: 'rgba(255,255,255,0.5)',
+    marginHorizontal: 16,
+  },
+  passwordButton: {
+    backgroundColor: ORANGE,
+    borderRadius: 16,
+    paddingVertical: 17,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 24,
+    shadowColor: ORANGE,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 6,
+  },
+  passwordText: {
+    fontFamily: GlobalFonts.Montserrat.Bold,
+    fontSize: 16,
+    color: WHITE,
+  },
+  signupContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  signupText: {
+    fontFamily: GlobalFonts.Inter.Regular,
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.6)',
+  },
+  signupLink: {
+    fontFamily: GlobalFonts.Inter.SemiBold,
+    fontSize: 14,
+    color: ORANGE,
+  },
 });
