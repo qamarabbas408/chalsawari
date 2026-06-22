@@ -1,40 +1,32 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Image, Animated, StyleSheet, Dimensions } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import { recolorLottie } from '../utils/lottieUtils';
+import GlobalFonts from '../styles/GlobalFonts';
 
-const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const exploreWhite = recolorLottie(require('../assets/animations/tab-icons/explore.json'), '#FFFFFF');
 
 export default function SplashScreen() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(100)).current;
-  const scaleAnim = useRef(new Animated.Value(0.8)).current;
+  const taglineAnim = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
   const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
     Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 1200,
-        useNativeDriver: true,
-      }),
-      Animated.timing(slideAnim, {
-        toValue: 0,
-        duration: 1200,
-        useNativeDriver: true,
-      }),
+      Animated.timing(fadeAnim, { toValue: 1, duration: 1200, useNativeDriver: true }),
+      Animated.timing(slideAnim, { toValue: 0, duration: 1200, useNativeDriver: true }),
     ]).start(() => {
+      Animated.timing(taglineAnim, { toValue: 1, duration: 600, useNativeDriver: true }).start();
       setShowLoader(true);
       setTimeout(() => {
         navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{ name: 'Intro' }],
-          })
+          CommonActions.reset({ index: 0, routes: [{ name: 'Intro' }] })
         );
       }, 2500);
     });
@@ -44,33 +36,29 @@ export default function SplashScreen() {
     <View style={styles.container}>
       <Image source={require('../assets/splash-bg.png')} style={styles.background} />
 
-      <View style={styles.contentContainer}>
+      <LinearGradient
+        colors={['rgba(15,23,42,0.2)', 'rgba(88,28,135,0.5)', 'rgba(15,23,42,0.85)']}
+        locations={[0, 0.4, 1]}
+        style={styles.gradient}
+      />
+
+      <View style={styles.contentCenter}>
         <Animated.View
-          style={[
-            styles.logoContainer,
-            {
-              opacity: fadeAnim,
-              transform: [{ translateY: slideAnim }],
-            },
-          ]}
+          style={[styles.logoWrapper, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}
         >
-          <View>
-            <Animated.Image
-              source={require('../assets/chal-sawari-logo.png')}
-              style={[
-                styles.logo,
-                {
-                  transform: [{ scale: scaleAnim }],
-                  opacity: scaleAnim,
-                },
-              ]}
-              resizeMode="contain"
-            />
-          </View>
+          <Image
+            source={require('../assets/chal-sawari-logo.png')}
+            style={styles.logo}
+            resizeMode="contain"
+          />
         </Animated.View>
 
-        {showLoader ? (
-          <View style={styles.compassContainer}>
+        <Animated.Text style={[styles.tagline, { opacity: taglineAnim }]}>
+          Your ride. Your city. Anytime.
+        </Animated.Text>
+
+        {showLoader && (
+          <Animated.View style={[styles.compassContainer, { opacity: taglineAnim }]}>
             <LottieView
               source={exploreWhite}
               style={styles.compass}
@@ -78,9 +66,7 @@ export default function SplashScreen() {
               autoPlay
               resizeMode="contain"
             />
-          </View>
-        ) : (
-          <View style={{ width: 50, height: 50 }} />
+          </Animated.View>
         )}
       </View>
     </View>
@@ -91,40 +77,46 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#0f172a',
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
   },
   background: {
     position: 'absolute',
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
-    backgroundColor: '#0f172a',
   },
-  contentContainer: {
-    width: width,
-    maxWidth: 400,
-    height: height,
-    justifyContent: 'center',
+  gradient: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  contentCenter: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 28,
   },
-  logoContainer: {
-    position: 'relative',
-    zIndex: 10,
+  logoWrapper: {
+    alignItems: 'center',
   },
   logo: {
-    width: width * 0.98,
-    height: 200,
-    zIndex: 20,
+    width: width * 0.65,
+    height: 120,
+  },
+  tagline: {
+    fontFamily: GlobalFonts.Inter.Regular,
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.55)',
+    marginTop: 8,
+    marginBottom: 40,
   },
   compassContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 40,
   },
   compass: {
-    width: 50,
-    height: 50,
+    width: 44,
+    height: 44,
   },
 });
