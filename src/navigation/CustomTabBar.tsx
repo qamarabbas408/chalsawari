@@ -13,7 +13,6 @@ import { recolorLottie } from '../utils/lottieUtils';
 const TEAL = '#00635A';
 const ORANGE = '#f97316';
 const WHITE = '#FFFFFF';
-const SCREEN_BG = '#F0F0F0';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const BAR_HEIGHT = 65;
@@ -173,8 +172,11 @@ export default function CustomTabBar({ state, navigation, insets }: CustomTabBar
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
-    width: SCREEN_WIDTH,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'transparent',
   },
   barArea: {
     backgroundColor: TEAL,
@@ -229,14 +231,14 @@ const styles = StyleSheet.create({
     width: FAB_PADDED_SIZE,
     height: FAB_PADDED_SIZE,
     borderRadius: FAB_PADDED_RADIUS,
-    backgroundColor: SCREEN_BG,
+    backgroundColor: ORANGE,
     alignItems: 'center',
     justifyContent: 'center',
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.15,
         shadowRadius: 6,
       },
       android: {
@@ -244,6 +246,7 @@ const styles = StyleSheet.create({
       },
     }),
   },
+
   fab: {
     width: FAB_SIZE,
     height: FAB_SIZE,
@@ -251,6 +254,7 @@ const styles = StyleSheet.create({
     backgroundColor: TEAL,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
   },
   fabIcon: {
     fontSize: 22,

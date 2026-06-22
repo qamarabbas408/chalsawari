@@ -1,23 +1,14 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import HomeScreen from '../screens/HomeScreen';
 import BookingScreen from '../screens/BookingScreen';
 import EventsScreen from '../screens/EventsScreen';
 import SettingScreen from '../screens/SettingScreen';
+import ExploreScreen from '../screens/ExploreScreen';
 import CustomTabBar from './CustomTabBar';
 
 const Tab = createBottomTabNavigator();
-
-function ExploreScreen() {
-  return (
-    <View style={{ flex: 1, backgroundColor: '#F0F0F0', alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ fontSize: 24, fontFamily: 'Inter-SemiBold', color: '#00635A' }}>Explore</Text>
-      <Text style={{ fontSize: 14, fontFamily: 'Inter-Regular', color: '#334155', marginTop: 8 }}>Discover something new</Text>
-    </View>
-  );
-}
 
 export default function BottomNavigator() {
   return (
@@ -25,7 +16,10 @@ export default function BottomNavigator() {
       tabBar={({ state, navigation, insets }) => (
         <CustomTabBar state={state} navigation={navigation} insets={insets} />
       )}
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { backgroundColor: 'transparent', borderTopWidth: 0, elevation: 0 },
+      }}
       initialRouteName="Explore"
     >
       <Tab.Screen name="Home" component={HomeScreen} />
