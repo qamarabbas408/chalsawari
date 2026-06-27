@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: ORANGE,
     borderRadius: 16,
-    paddingVertical: 17,
+    height: 56,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: ORANGE,

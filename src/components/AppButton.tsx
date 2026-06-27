@@ -83,7 +83,7 @@ const AppButton: React.FC<ButtonProps> = ({
 
 const styles = StyleSheet.create({
     size: {
-        height: 60,
+        height: 56,
     },
     button: {
         backgroundColor: AppColors.white,

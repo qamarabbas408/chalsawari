@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -10,8 +10,9 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import GlobalFonts from '../styles/GlobalFonts';
 import AppColors from '../styles/AppColors';
-import AppInput from '../components/AppInput';
+import AppInput, { AppInputRef } from '../components/AppInput';
 import { handleNavigationTo } from '../utils/AppUtils';
+import { useToast } from '../context/ToastContext';
 
 const ORANGE = '#f97316';
 const WHITE = '#FFFFFF';
@@ -21,15 +22,32 @@ export default function LoginScreen({ navigation }: any) {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
   const [rememberMe, setRememberMe] = useState(false);
+  const { showToast } = useToast();
+
+  const usernameRef = useRef<AppInputRef>(null);
+  const passwordRef = useRef<AppInputRef>(null);
+
+  const clearFieldError = (field: 'username' | 'password') => {
+    setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
 
   const handleLogin = () => {
-    const newErrors: any = {};
-    if (!username) newErrors.username = 'Username is required';
-    if (!password) newErrors.password = 'Password is required';
+    const newErrors: { username?: string; password?: string } = {};
+    if (!username.trim()) newErrors.username = 'Username is required';
+    if (!password.trim()) newErrors.password = 'Password is required';
     setErrors(newErrors);
 
-    if (Object.keys(newErrors).length === 0) {
+    if (Object.keys(newErrors).length > 0) {
+      if (newErrors.username) usernameRef.current?.shake();
+      if (newErrors.password) passwordRef.current?.shake();
+      return;
+    }
+
+    if (username.trim() === 'demo' && password.trim() === 'demo') {
       handleNavigationTo(navigation, 'BottomTabs');
+    } else {
+      showToast({ message: 'Invalid username or password', type: 'error' });
+      passwordRef.current?.shake();
     }
   };
 
@@ -43,7 +61,10 @@ export default function LoginScreen({ navigation }: any) {
         contentContainerStyle={styles.scroll}
         keyboardShouldPersistTaps="handled"
       >
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Auth')}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.navigate('Auth')}
+        >
           <Text style={styles.backArrow}>‹</Text>
           <Text style={styles.backText}>Back</Text>
         </TouchableOpacity>
@@ -53,17 +74,25 @@ export default function LoginScreen({ navigation }: any) {
 
         <View style={styles.form}>
           <AppInput
+            ref={usernameRef}
             placeholder="John Doe"
             value={username}
-            onChangeText={setUsername}
+            onChangeText={(text) => {
+              setUsername(text);
+              clearFieldError('username');
+            }}
             error={errors.username}
             inputLabel="Username"
           />
 
           <AppInput
+            ref={passwordRef}
             placeholder="Enter your password"
             value={password}
-            onChangeText={setPassword}
+            onChangeText={(text) => {
+              setPassword(text);
+              clearFieldError('password');
+            }}
             secureTextEntry
             error={errors.password}
             inputLabel="Password"
@@ -157,7 +186,7 @@ const styles = StyleSheet.create({
     fontFamily: GlobalFonts.Inter.Regular,
     fontSize: 14,
     color: 'rgba(255,255,255,0.6)',
-    marginBottom: 32,
+    marginBottom: 24,
   },
   form: {
     marginBottom: 28,
@@ -195,7 +224,7 @@ const styles = StyleSheet.create({
   signInButton: {
     backgroundColor: ORANGE,
     borderRadius: 16,
-    paddingVertical: 17,
+    height: 56,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: ORANGE,

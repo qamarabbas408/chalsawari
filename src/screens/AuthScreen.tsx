@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: WHITE,
     borderRadius: 16,
-    paddingVertical: 16,
+    height: 56,
     gap: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   passwordButton: {
     backgroundColor: ORANGE,
     borderRadius: 16,
-    paddingVertical: 17,
+    height: 56,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 24,
