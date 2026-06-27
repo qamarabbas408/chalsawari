@@ -55,7 +55,7 @@ export default function IntroScreen({ navigation }: any) {
       />
 
       <LinearGradient
-        colors={[AppColors.gradientDarkNavy, 'rgba(88,28,135,0.85)', 'rgba(15,23,42,0.55)', 'rgba(15,23,42,0.45)']}
+        colors={[AppColors.gradientDarkNavy, AppColors.gradientPurpleOverlay, AppColors.gradientDarkFade, AppColors.gradientDarkFadeLight]}
         locations={[0, 0.35, 0.75, 1]}
         style={styles.overlay}
       />

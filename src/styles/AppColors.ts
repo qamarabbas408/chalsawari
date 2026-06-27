@@ -30,6 +30,11 @@ const AppColors = {
   gradientDarkFade: 'rgba(15,23,42,0.55)',
   gradientDarkFadeLight: 'rgba(15,23,42,0.45)',
 
+  // Splashscreen overlay
+  gradientSplashOverlay: 'rgba(88,28,135,0.5)',
+  gradientDarkFadeStrong: 'rgba(15,23,42,0.85)',
+  gradientDarkFadeWeak: 'rgba(15,23,42,0.2)',
+
   // Standard 3-stop gradient array & locations
   gradientStandard: ['#0f172a', 'rgba(88,28,135,0.9)', 'rgba(88,28,135,0.6)'] as readonly string[],
   gradientStandardLocations: [0, 0.5, 1] as readonly number[],

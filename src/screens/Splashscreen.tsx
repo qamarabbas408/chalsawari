@@ -38,7 +38,7 @@ export default function SplashScreen() {
       <Image source={require('../assets/splash-bg.png')} style={styles.background} />
 
       <LinearGradient
-        colors={['rgba(15,23,42,0.2)', 'rgba(88,28,135,0.5)', 'rgba(15,23,42,0.85)']}
+        colors={[AppColors.gradientDarkFadeWeak, AppColors.gradientSplashOverlay, AppColors.gradientDarkFadeStrong]}
         locations={[0, 0.4, 1]}
         style={styles.gradient}
       />
