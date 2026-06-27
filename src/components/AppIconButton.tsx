@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import GlobalStyles from '../styles/GlobalStyles';
+import AppColors from '../styles/AppColors';
 
 type IconButtonProps = {
   title: string;
@@ -55,7 +56,7 @@ const AppIconButton: React.FC<IconButtonProps> = ({
 
 const styles = StyleSheet.create({
   default: {
-    backgroundColor: '#0f172a',
+    backgroundColor: AppColors.gradientDarkNavy,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,

@@ -5,6 +5,7 @@ import { useNavigation, CommonActions } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import { recolorLottie } from '../utils/lottieUtils';
 import GlobalFonts from '../styles/GlobalFonts';
+import AppColors from '../styles/AppColors';
 
 const { width } = Dimensions.get('window');
 
@@ -76,7 +77,7 @@ export default function SplashScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0f172a',
+    backgroundColor: AppColors.gradientDarkNavy,
   },
   background: {
     position: 'absolute',

@@ -21,6 +21,18 @@ const AppColors = {
 
   inputBg : '#ebf1f4',
   transparent: 'transparent',
+
+  // Gradient colors (shared across screens)
+  gradientDarkNavy: '#0f172a',
+  gradientPurple: 'rgba(88,28,135,0.9)',
+  gradientPurpleLight: 'rgba(88,28,135,0.6)',
+  gradientPurpleOverlay: 'rgba(88,28,135,0.85)',
+  gradientDarkFade: 'rgba(15,23,42,0.55)',
+  gradientDarkFadeLight: 'rgba(15,23,42,0.45)',
+
+  // Standard 3-stop gradient array & locations
+  gradientStandard: ['#0f172a', 'rgba(88,28,135,0.9)', 'rgba(88,28,135,0.6)'] as readonly string[],
+  gradientStandardLocations: [0, 0.5, 1] as readonly number[],
 };
 
 export default AppColors;

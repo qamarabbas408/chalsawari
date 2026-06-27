@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, AppState, TouchableOpacity, Image, Dimensions }
 import LinearGradient from 'react-native-linear-gradient';
 import LottieView from 'lottie-react-native';
 import GlobalFonts from '../styles/GlobalFonts';
+import AppColors from '../styles/AppColors';
 import { useFocusEffect } from '@react-navigation/native';
 import { handleNavigationTo } from '../utils/AppUtils';
 
@@ -54,7 +55,7 @@ export default function IntroScreen({ navigation }: any) {
       />
 
       <LinearGradient
-        colors={['#0f172a', 'rgba(88,28,135,0.85)', 'rgba(15,23,42,0.55)', 'rgba(15,23,42,0.45)']}
+        colors={[AppColors.gradientDarkNavy, 'rgba(88,28,135,0.85)', 'rgba(15,23,42,0.55)', 'rgba(15,23,42,0.45)']}
         locations={[0, 0.35, 0.75, 1]}
         style={styles.overlay}
       />
@@ -96,7 +97,7 @@ export default function IntroScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0f172a',
+    backgroundColor: AppColors.gradientDarkNavy,
   },
   background: {
     position: 'absolute',

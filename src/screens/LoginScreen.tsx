@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import GlobalFonts from '../styles/GlobalFonts';
+import AppColors from '../styles/AppColors';
 import AppInput from '../components/AppInput';
 import { handleNavigationTo } from '../utils/AppUtils';
 
@@ -34,8 +35,8 @@ export default function LoginScreen({ navigation }: any) {
 
   return (
     <LinearGradient
-      colors={['#0f172a', 'rgba(88,28,135,0.9)', 'rgba(88,28,135,0.6)']}
-      locations={[0, 0.5, 1]}
+      colors={AppColors.gradientStandard}
+      locations={AppColors.gradientStandardLocations}
       style={styles.container}
     >
       <ScrollView
